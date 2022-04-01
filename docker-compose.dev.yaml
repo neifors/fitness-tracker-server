@@ -1,0 +1,26 @@
+version: '3'
+services:
+  server:
+    container_name: dev_api
+    working_dir: /code
+    ports: 
+      - 3000:3000
+    environment: 
+      - PORT= 3000
+    depends_on:
+      - db
+    command: bash -c "npm install && npm start"
+
+  db:
+    container_name: dev_db
+    volumes:
+      - "dbdata:/var/lib/mongodb/data"
+    environment: 
+      - MONGO_INITDB_ROOT_USERNAME=futureproof
+      - MONGO_INITDB_DATABASE=users
+      - MONGO_INITDB_ROOT_PASSWORD=userpass
+volumes:
+  dbdata:
+networks: 
+  default:
+    name: app_dev

@@ -1,0 +1,23 @@
+version: '3'
+services:
+  server:
+    image: node:12.18.4
+    environment: 
+      - DB_NAME=users
+      - DB_CONNECTION=mongodb://futureproof:userpass@db:27017
+    depends_on:
+      - db
+    volumes:
+      - type: bind
+        source: ./server
+        target: /code
+  db:
+    image: mongo:4-focal
+    volumes:
+      - "./db/seeds.js:/docker-entrypoint-initdb.d/seeds.js:ro"
+    environment: 
+      - MONGO_INITDB_ROOT_USERNAME=futureproof
+      - MONGO_INITDB_DATABASE=users
+      - MONGO_INITDB_ROOT_PASSWORD=userpass
+volumes:
+  dbdata:
